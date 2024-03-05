@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "266935654766",
+    "project_id": "solosync-de311",
+    "storage_bucket": "solosync-de311.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266935654766:android:10592480f42f9de1d7097f",
+        "android_client_info": {
+          "package_name": "com.novox.solosync"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMNRPYT4Qkiz9qASTZizSiVIK2KH3noWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
