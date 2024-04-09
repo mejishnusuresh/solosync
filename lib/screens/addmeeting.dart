@@ -1,15 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:solosync/screens/navbar.dart';
+import 'package:solosync/services/tasksandmeetings.dart';
 
-class ScheduleCallPage extends StatefulWidget {
-  const ScheduleCallPage({Key? key}) : super(key: key);
+class AddMeeting extends StatefulWidget {
+  const AddMeeting({super.key});
 
   @override
-  State<ScheduleCallPage> createState() => _ScheduleCallPageState();
+  State<AddMeeting> createState() => _AddMeetingState();
 }
 
-class _ScheduleCallPageState extends State<ScheduleCallPage> {
+class _AddMeetingState extends State<AddMeeting> {
+
+  final FirebaseService _firebaseService = FirebaseService();
+  final TextEditingController _meetingSubjectController = TextEditingController();
+  final TextEditingController _meetingDescriptionController = TextEditingController();
+
   String? selectedCustomer;
   String? selectedCounter;
   DateTime? selectedDate;
@@ -44,7 +50,7 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
           },
         ),
         title: const Text(
-          "Schedule New Call",
+          "Create Meeting",
           style: TextStyle(
             fontSize: 16,
             color: Colors.white,
@@ -75,7 +81,7 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Call To"),
+                    const Text("Host"),
                     const SizedBox(height: 20,),
                     Card(
                       color:Colors.white,
@@ -221,23 +227,27 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                         child: TextFormField(
+                          controller: _meetingSubjectController,
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
+                              border: InputBorder.none,
+                              labelText: 'Meeting Name'
                           ),
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 20,),
-                    const Text("Agenda"),
+                    const Text("Description"),
                     const SizedBox(height: 20,),
                     Card(
                       color:Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                         child: TextFormField(
+                          controller: _meetingDescriptionController,
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
+                              border: InputBorder.none,
+                              labelText: 'Meeting Description'
                           ),
                         ),
                       ),
@@ -285,9 +295,9 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-
+                          _createMeeting();
                         },
-                        child: const Text('Schedule Call',),
+                        child: const Text('Create Task',),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>( Theme.of(context).primaryColor,),
                           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -304,5 +314,23 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
         ],
       ),
     );
+  }
+
+  void _createMeeting() {
+    if (_meetingSubjectController.text.isNotEmpty && _meetingDescriptionController.text.isNotEmpty && selectedCustomer != null && selectedDate != null && selectedCounter != null) {
+      _firebaseService.addMeeting(
+        meetingSubject: _meetingSubjectController.text,
+        meetingDescription: _meetingDescriptionController.text,
+        meetingContact: selectedCustomer!,
+        meetingDate: selectedDate!,
+        meetingReminderTime: selectedCounter!,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const NavBar()),
+      );
+    } else {
+      // Handle validation or show an error message
+    }
   }
 }

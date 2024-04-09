@@ -1,16 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:solosync/screens/Auth/emailloginpage.dart';
-import 'package:solosync/screens/Auth/mobileloginpage.dart';
+import 'package:solosync/screens/Auth/emailsignuppage.dart';
+import 'package:solosync/screens/Auth/loginpage.dart';
+import 'package:solosync/screens/Auth/mobilesignuppage.dart';
+import 'package:solosync/screens/addprofilepage.dart';
+import 'package:solosync/screens/navbar.dart';
+import 'package:solosync/services/authservice.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignPage extends StatefulWidget {
+  const SignPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignPage> createState() => _SignPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignPageState extends State<SignPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -47,42 +54,58 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               const SizedBox(height: 50,),
-              Container(
-                height: 50,
-                width: 300,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                  color: Colors.black,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Image.asset('assets/icons/google-icon.png'),
-                      width: 30,
-                      height: 30,
-                    ),
-                    const SizedBox(width: 20,),
-                    Text(
-                      "Continue with Google",
-                      style: GoogleFonts.inter(
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          )
+              GestureDetector(
+                onTap: () async {
+                  AuthService authService = AuthService();
+                  User? user = await authService.signInWithGoogle();
+                  if (user != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddProfilePage()),
+                    );
+                  } else {
+                    // Sign in failed
+                    // Show an error message or handle the failure in a way that makes sense for your app
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    color: Colors.black,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Image.asset('assets/icons/google-icon.png'),
+                        width: 30,
+                        height: 30,
                       ),
-                    ),
-                    const SizedBox(width: 20,),
-                  ],
+                      const SizedBox(width: 20,),
+                      Text(
+                        "Continue with Google",
+                        style: GoogleFonts.inter(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            )
+                        ),
+                      ),
+                      const SizedBox(width: 20,),
+                    ],
+                  ),
                 ),
               ),
+
               const SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MobileLoginPage()),
+                    MaterialPageRoute(builder: (context) => const MobileSignUpPage()),
                   );
                 },
                 child: Container(
@@ -111,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onTap: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const EmailLoginPage()),
+                    MaterialPageRoute(builder: (context) => const EmailSignUpPage()),
                   );
                 },
                 child: Container(
@@ -153,13 +176,20 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         TextSpan(
                             text: "Login",
+                            recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginPage()),
+                              );
+                            },
                             style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                   fontSize: 14,
                                   color: Theme.of(context).primaryColor,
                                   decoration: TextDecoration.underline,
                                 )
-                            )
+                            ),
                         )
                       ],
                     ),

@@ -1,17 +1,21 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:solosync/screens/Auth/successpage.dart';
 
-class OTPLoginPage extends StatefulWidget {
-  const OTPLoginPage({super.key});
+class OTPPage extends StatefulWidget {
+  String verificationid;
+  OTPPage({super.key, required this.verificationid});
 
   @override
-  State<OTPLoginPage> createState() => _OTPLoginPageState();
+  State<OTPPage> createState() => _OTPPageState();
 }
 
-class _OTPLoginPageState extends State<OTPLoginPage> {
+class _OTPPageState extends State<OTPPage> {
   final List<TextEditingController> _controllers =
       List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
@@ -46,17 +50,19 @@ class _OTPLoginPageState extends State<OTPLoginPage> {
     });
   }
 
-  void _verifyOTP() {
-    String dummyOTP = '123456'; // Replace this with your actual OTP
+  void _verifyOTP() async {
     String otp = _controllers.map((controller) => controller.text).join();
-    if (otp == dummyOTP) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const SuccessPage()),
+
+    try {
+      PhoneAuthCredential credential = await PhoneAuthProvider.credential(
+          verificationId: widget.verificationid,
+          smsCode: otp
       );
-    } else {
-      // Handle incorrect OTP
-      print('Incorrect OTP entered');
+      FirebaseAuth.instance.signInWithCredential(credential).then((value){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SuccessPage()));
+      });
+    } catch (ex) {
+      log(ex.toString());
     }
   }
 
@@ -198,6 +204,7 @@ class _OTPLoginPageState extends State<OTPLoginPage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
+              color:Colors.white,
               elevation: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

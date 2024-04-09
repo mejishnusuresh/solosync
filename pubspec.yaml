@@ -11,33 +11,48 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  get: ^4.6.6
+  http: ^1.2.1
+  pinput: ^4.0.0
   intl: ^0.19.0
   calendar_date_picker2: ^0.5.5
-  toggle_switch: 2.1.0
-  fl_chart: ^0.66.2
+  toggle_switch: 2.3.0
+  fl_chart: ^0.67.0
   flutter_charts: ^0.5.2
   grouped_list: ^5.1.2
   sms_autofill: ^2.3.1
   percent_indicator: ^4.2.3
-  syncfusion_flutter_charts: ^24.2.9
+  syncfusion_flutter_charts: ^25.1.38
   google_fonts: ^6.2.1
   intl_phone_field: ^3.2.0
   cupertino_icons: ^1.0.6
   iconify_flutter: ^0.0.5
   provider: ^6.1.2
+  flutter_form_builder: ^9.2.1
+  app_settings: ^5.1.1
+  image_picker: ^1.0.7
+  flutter_launcher_icons: ^0.13.1
 
-  firebase_core: ^2.25.5
-  firebase_auth: ^4.17.6
-#  cloud_firestore: ^4.15.4
+  razorpay_web: ^1.4.2
+
+
+  firebase_core: ^2.28.0
+  firebase_auth: ^4.19.0
+  google_sign_in: ^6.2.1
+  cloud_firestore: ^4.16.0
+  firebase_storage: ^11.7.0
+  firebase_messaging: ^14.8.0
+  flutter_local_notifications: ^17.0.0
+  permission_handler: ^11.3.1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_oss_licenses: ^2.0.1
+  flutter_launcher_icons: ^0.13.1
 
-
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
 
 flutter:
 
@@ -46,4 +61,11 @@ flutter:
 
   assets:
     - assets/icons/google-icon.png
+    - assets/icons/default.png
+    - assets/logo/solosync.png
 
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/solosync.png"

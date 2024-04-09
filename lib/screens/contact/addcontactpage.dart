@@ -87,6 +87,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     const SizedBox(height: 30,),
 
                     Card(
+                      color:Colors.white,
                       elevation: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0,right: 16.0),
@@ -102,6 +103,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     Container(
                       height: 120,
                       child: Card(
+                        color:Colors.white,
                         elevation: 3,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0,right: 16.0),
@@ -127,6 +129,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     ),
                     const SizedBox(height: 10,),
                     Card(
+                      color:Colors.white,
                       elevation: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
@@ -153,6 +156,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     const SizedBox(height: 10,),
 
                     Card(
+                      color:Colors.white,
                       elevation: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
@@ -177,6 +181,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     ),
                     const SizedBox(height: 10,),
                     Card(
+                      color:Colors.white,
                       elevation: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
@@ -222,6 +227,7 @@ class _AddContactPageState extends State<AddContactPage> {
 
                     const SizedBox(height: 10,),
                     Card(
+                      color:Colors.white,
                       elevation: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0, right: 16.0),

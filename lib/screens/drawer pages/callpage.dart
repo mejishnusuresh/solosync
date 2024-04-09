@@ -226,6 +226,7 @@ class _CallPageState extends State<CallPage> {
                 Container(
                     width: double.infinity,
                     child: Card(
+                      color:Colors.white,
                       elevation: 4,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -295,6 +296,7 @@ class _CallPageState extends State<CallPage> {
                 Container(
                   width: double.infinity,
                   child: Card(
+                    color:Colors.white,
                     elevation: 4,
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),

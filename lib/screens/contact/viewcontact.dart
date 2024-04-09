@@ -143,8 +143,6 @@ class ViewContactPage extends StatelessWidget {
               ),
             ),
           ),
-
-          const Text("hello"),
         ],
       ),
 

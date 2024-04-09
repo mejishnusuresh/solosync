@@ -45,6 +45,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             ),
             Container(
               child: Card(
+                color:Colors.white,
                 elevation: 3,
                 child: Stack(
                   children: [
@@ -237,6 +238,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   child: Container(
                     height: 110,
                     child: Card(
+                        color:Colors.white,
                         elevation: 3,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -280,6 +282,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   child: Container(
                     height: 110,
                     child: Card(
+                        color:Colors.white,
                         elevation: 3,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -324,6 +327,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             const SizedBox(height: 20),
             Container(
               child:  Card(
+                color:Colors.white,
                 elevation: 3,
                   child: Column(
                     children: [
@@ -345,7 +349,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                         )
                                     ),
                                     Text(
-                                        "Overall Revenue",
+                                        "Payment Due",
                                         style: GoogleFonts.inter(
                                           textStyle:  const TextStyle(
                                             fontWeight: FontWeight.bold,

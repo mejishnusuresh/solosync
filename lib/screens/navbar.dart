@@ -1,19 +1,23 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
-import 'package:iconify_flutter/icons/ep.dart';
 import 'package:iconify_flutter/icons/ic.dart';
 import 'package:iconify_flutter/icons/ion.dart';
 import 'package:provider/provider.dart';
 import 'package:solosync/main.dart';
-import 'package:solosync/screens/contact/contactspage.dart';
+import 'package:solosync/screens/addprofilepage.dart';
+import 'package:solosync/screens/drawer%20pages/contactspage.dart';
 import 'package:solosync/screens/drawer%20pages/callpage.dart';
 import 'package:solosync/screens/drawer%20pages/dashboardpage.dart';
 import 'package:solosync/screens/drawer%20pages/homepage.dart';
 import 'package:solosync/screens/drawer%20pages/notificationpage.dart';
+import 'package:solosync/screens/paymentspage.dart';
 import 'package:solosync/screens/profilepage.dart';
-import 'package:solosync/screens/quotespage.dart';
 import 'package:solosync/screens/settings.dart';
 
 class NavBar extends StatefulWidget {
@@ -26,84 +30,18 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   int currentPageIndex = 0;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late String userId;
+  String _fullName ="";
+  String _email="";
+  File? _imageFile;
 
-  //popup function here
-  void _showMoreOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          width: MediaQuery.sizeOf(context).width-20,
-          height: 180,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ContactsPage()),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(Icons.contacts_rounded,color: Theme.of(context).primaryColor,)
-                          ),
-                          const SizedBox(width: 8,),
-                          const Text("Contacts",style: TextStyle(fontSize: 18,),)
-
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8,),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const QuotesPage()),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(Icons.format_list_numbered_rounded,color: Theme.of(context).primaryColor,)
-                          ),
-                          const SizedBox(width: 8,),
-                          const Text("Quotes",style: TextStyle(fontSize: 18,),),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    _fetchProfileData();
   }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -132,14 +70,9 @@ class _NavBarState extends State<NavBar> {
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
         onTap: (int index) {
-          if (index == 4) {
-            //popup function calling here
-            _showMoreOptions(context);
-          } else {
             setState(() {
               currentPageIndex = index;
             });
-          }
         },
         items: [
           BottomNavigationBarItem(
@@ -155,12 +88,12 @@ class _NavBarState extends State<NavBar> {
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Ic.baseline_notifications_active, color: currentPageIndex == 3 ? Theme.of(context).primaryColor : Colors.grey),
-            label: 'Notifications',
+            icon: Iconify(Ic.contacts, color: currentPageIndex == 3 ? Theme.of(context).primaryColor : Colors.grey),
+            label: 'More',
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Ep.more_filled, color: currentPageIndex == 4 ? Theme.of(context).primaryColor : Colors.grey),
-            label: 'More',
+            icon: Iconify(Ic.baseline_notifications_active, color: currentPageIndex == 4 ? Theme.of(context).primaryColor : Colors.grey),
+            label: 'Notifications',
           ),
         ],
       ),
@@ -172,6 +105,7 @@ class _NavBarState extends State<NavBar> {
               HomePage(scaffoldKey: _scaffoldKey),
               const CallPage(),
               const DashBoardPage(),
+              const ContactsPage(),
               const NotificationPage(),
             ],
           ),
@@ -188,13 +122,23 @@ class _NavBarState extends State<NavBar> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CircleAvatar(
-            radius: 40,
-            backgroundImage: NetworkImage("https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"),
+          GestureDetector(
+          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AddProfilePage()),
+                            );
+                          },
+            child: CircleAvatar(
+              backgroundImage: _imageFile != null
+                  ? FileImage(_imageFile!)
+                  : const AssetImage('assets/icons/default.png') as ImageProvider<Object>?,
+              radius: 40,
+            ),
           ),
           const SizedBox(height: 10,),
           Text(
-            "John Abraham",
+           _fullName,
             style: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   fontSize: 14,
@@ -203,7 +147,7 @@ class _NavBarState extends State<NavBar> {
                 )
             ),),
           Text(
-            "johnabraham@gmail.com",
+            _email,
             style: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   fontSize: 12,
@@ -277,7 +221,10 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
               onTap: () {
-                Navigator.pushReplacementNamed(context, '/payments');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaymentsPage()),
+                );
               },
             ),
             ListTile(
@@ -319,4 +266,23 @@ class _NavBarState extends State<NavBar> {
     ),
   );
 
+
+  Future<void> _fetchProfileData() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        userId = user.uid;
+        DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+        if (snapshot.exists) {
+          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+          setState(() {
+            _fullName = data['fullName'] ?? '';
+            _email = data['email'] ?? '';
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching profile data: $e');
+    }
+  }
 }

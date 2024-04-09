@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:solosync/screens/Auth/signuppage.dart';
+import 'package:solosync/screens/Auth/signpage.dart';
+import 'package:solosync/services/authservice.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -112,10 +113,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           const SizedBox(height: 50,),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () async {
+                              AuthService authService = AuthService();
+                              await authService.signOut();
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const SignUpPage()),
+                                MaterialPageRoute(builder: (context) => const SignPage()),
                               );
                             },
                             child: Text(
@@ -124,11 +127,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                   textStyle: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.red,
-                                    fontWeight: FontWeight.bold
+                                      fontWeight: FontWeight.bold
                                   )
                               ),
                             ),
                           ),
+
 
                         ]
 

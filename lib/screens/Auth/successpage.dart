@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:solosync/screens/addprofilepage.dart';
 import 'package:solosync/screens/navbar.dart';
 
 class SuccessPage extends StatelessWidget {
@@ -44,7 +45,7 @@ class SuccessPage extends StatelessWidget {
                 onTap: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const NavBar())
+                    MaterialPageRoute(builder: (context) => const AddProfilePage())
                   );
                 },
                 child: Container(

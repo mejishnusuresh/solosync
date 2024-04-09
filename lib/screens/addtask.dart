@@ -1,15 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:solosync/screens/navbar.dart';
+import 'package:solosync/services/tasksandmeetings.dart';
 
-class ScheduleCallPage extends StatefulWidget {
-  const ScheduleCallPage({Key? key}) : super(key: key);
+class AddTask extends StatefulWidget {
+  const AddTask({super.key});
 
   @override
-  State<ScheduleCallPage> createState() => _ScheduleCallPageState();
+  State<AddTask> createState() => _AddTaskState();
 }
 
-class _ScheduleCallPageState extends State<ScheduleCallPage> {
+class _AddTaskState extends State<AddTask> {
+
+  final FirebaseService _firebaseService = FirebaseService();
+  final TextEditingController _taskSubjectController = TextEditingController();
+  final TextEditingController _taskDescriptionController = TextEditingController();
+
   String? selectedCustomer;
   String? selectedCounter;
   DateTime? selectedDate;
@@ -44,7 +50,7 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
           },
         ),
         title: const Text(
-          "Schedule New Call",
+          "Create Task",
           style: TextStyle(
             fontSize: 16,
             color: Colors.white,
@@ -75,7 +81,7 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Call To"),
+                    const Text("Contact"),
                     const SizedBox(height: 20,),
                     Card(
                       color:Colors.white,
@@ -221,23 +227,27 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                         child: TextFormField(
+                          controller: _taskSubjectController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
+                              labelText: 'Task Name'
                           ),
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 20,),
-                    const Text("Agenda"),
+                    const Text("Description"),
                     const SizedBox(height: 20,),
                     Card(
                       color:Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0,right: 16.0),
                         child: TextFormField(
+                          controller: _taskDescriptionController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
+                            labelText: 'Task Description'
                           ),
                         ),
                       ),
@@ -285,9 +295,9 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-
+                          _createTask();
                         },
-                        child: const Text('Schedule Call',),
+                        child: const Text('Create Task',),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>( Theme.of(context).primaryColor,),
                           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -305,4 +315,23 @@ class _ScheduleCallPageState extends State<ScheduleCallPage> {
       ),
     );
   }
+
+  void _createTask() {
+    if (_taskSubjectController.text.isNotEmpty && _taskDescriptionController.text.isNotEmpty && selectedCustomer != null && selectedDate != null && selectedCounter != null) {
+      _firebaseService.addTask(
+        taskSubject: _taskSubjectController.text,
+        taskDescription: _taskDescriptionController.text,
+        taskContact: selectedCustomer!,
+        taskDate: selectedDate!,
+        taskReminderTime: selectedCounter!,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const NavBar()),
+      );
+    } else {
+      // Handle validation or show an error message
+    }
+  }
+
 }
