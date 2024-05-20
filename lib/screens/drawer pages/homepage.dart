@@ -2075,6 +2075,51 @@ class TaskCategoryView extends StatelessWidget {
             }
           }).toList();
 
+          if (filteredTasks.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Image.asset('assets/icons/tasks.png'),
+                        width: 45,
+                        height: 45,
+                      ),
+                      SizedBox(width: 20,),
+                      Column(
+                        children: [
+                          Text(
+                            'No Tasks Assigned.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'To add a task, please \n click the Add Task button',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+
           List<DocumentSnapshot> displayedTasks = expandTasks ? filteredTasks : filteredTasks.take(3).toList();
 
           return Column(
@@ -2137,6 +2182,7 @@ class TaskCategoryView extends StatelessWidget {
   }
 }
 
+
 class MeetingCategoryView extends StatelessWidget {
   final MeetingCategory category;
   final bool expandMeetings;
@@ -2170,6 +2216,53 @@ class MeetingCategoryView extends StatelessWidget {
                 return false;
             }
           }).toList();
+
+
+          if (filteredMeetings.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Image.asset('assets/icons/tasks.png'),
+                        width: 45,
+                        height: 45,
+                      ),
+                      SizedBox(width: 20,),
+                      Column(
+                        children: [
+                          Text(
+                            'No Meetings Assigned.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'To add a meeting, please \n click the Add Meeting button',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+
 
           List<DocumentSnapshot> displayedMeetings = expandMeetings ? filteredMeetings : filteredMeetings.take(3).toList();
 

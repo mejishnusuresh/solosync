@@ -16,6 +16,9 @@ class DatabaseService {
   final CollectionReference meetingCollection =
   FirebaseFirestore.instance.collection("meetings");
 
+  final CollectionReference contactCollection =
+  FirebaseFirestore.instance.collection("contacts");
+
 
 
   // Storing user data

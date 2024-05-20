@@ -297,7 +297,7 @@ class _AddMeetingState extends State<AddMeeting> {
                         onPressed: () {
                           _createMeeting();
                         },
-                        child: const Text('Create Task',),
+                        child: const Text('Create meeting',),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>( Theme.of(context).primaryColor,),
                           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

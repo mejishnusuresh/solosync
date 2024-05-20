@@ -187,7 +187,7 @@ class _ContactsPageState extends State<ContactsPage> {
                   color: Colors.white,
                 ),
                 child: GroupedListView<dynamic, String>(
-                  elements: _filteredContacts, // Use filtered contacts here
+                  elements: _filteredContacts, 
                   groupBy: (element) => element["name"][0],
                   groupSeparatorBuilder: (String groupByValue) => Column(
                     children: [
@@ -256,7 +256,7 @@ class _ContactsPageState extends State<ContactsPage> {
                     color: Colors.grey.withOpacity(0.4),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3), 
                   ),
                 ],
               ),
