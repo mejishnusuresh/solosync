@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:solosync/screens/entrypage.dart';
 import 'package:solosync/services/wrapper.dart';
 
 Future<void> main() async {
@@ -32,13 +33,13 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: themeProvider.isDarkMode
               ? ThemeData.dark().copyWith(
-            primaryColor: Colors.blue, // Example dark theme color
+            primaryColor: Colors.blue,
           )
               : ThemeData.light().copyWith(
             primaryColor: const Color(0xFF7E64F1),
           ),
           debugShowCheckedModeBanner: false,
-          home: const Wrapper(),
+          home: const EntryPage(),
         );
       },
     );

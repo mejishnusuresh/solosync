@@ -43,22 +43,18 @@ class _EntryPageState extends State<EntryPage> {
             Container(
               width: 300,
               height: 300,
-              // child:Image.asset(
-              //
-              //   fit: BoxFit.fill,
-              // ),
+              child:Image.asset("assets/logo/solosync.png")
             ),
 
             const SizedBox(height: 20.0),
 
-            // const Text(
-            //
-            //   style: TextStyle(
-            //     color: Colors.black,
-            //     fontSize: 24.0,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
+            const Text("SoloSync",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
 
           ],
         ),
