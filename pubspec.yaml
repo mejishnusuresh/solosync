@@ -87,6 +87,7 @@ flutter:
     - assets/icons/default.png
     - assets/logo/solosync.png
     - assets/icons/tasks.png
+    - assets/icons/meetings.png
 
 
 flutter_icons:

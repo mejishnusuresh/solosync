@@ -11,11 +11,11 @@ import 'package:iconify_flutter/icons/ion.dart';
 import 'package:provider/provider.dart';
 import 'package:solosync/main.dart';
 import 'package:solosync/screens/addprofilepage.dart';
-import 'package:solosync/screens/drawer%20pages/contactspage.dart';
+import 'package:solosync/screens/contactspage.dart';
 import 'package:solosync/screens/drawer%20pages/callpage.dart';
 import 'package:solosync/screens/drawer%20pages/dashboardpage.dart';
 import 'package:solosync/screens/drawer%20pages/homepage.dart';
-import 'package:solosync/screens/drawer%20pages/notificationpage.dart';
+import 'package:solosync/screens/notificationpage.dart';
 import 'package:solosync/screens/paymentspage.dart';
 import 'package:solosync/screens/profilepage.dart';
 import 'package:solosync/screens/settings.dart';
@@ -65,10 +65,16 @@ class _NavBarState extends State<NavBar> {
           )
           : null,
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
+        // showSelectedLabels: false,
         currentIndex: currentPageIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
+        selectedLabelStyle: GoogleFonts.inter(
+            textStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight:
+                FontWeight.w500
+            )
+        ),
+
         onTap: (int index) {
             setState(() {
               currentPageIndex = index;
@@ -78,22 +84,15 @@ class _NavBarState extends State<NavBar> {
           BottomNavigationBarItem(
             icon: Iconify(Ion.home, color: currentPageIndex == 0 ? Theme.of(context).primaryColor : Colors.grey),
             label: 'Home',
+
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Ic.round_call_end, color: currentPageIndex == 1 ? Theme.of(context).primaryColor : Colors.grey),
-            label: 'Call Log',
-          ),
-          BottomNavigationBarItem(
-            icon: Iconify(Bx.bxs_analyse, color: currentPageIndex == 2 ? Theme.of(context).primaryColor : Colors.grey),
+            icon: Iconify(Bx.bxs_analyse, color: currentPageIndex == 1 ? Theme.of(context).primaryColor : Colors.grey),
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Ic.contacts, color: currentPageIndex == 3 ? Theme.of(context).primaryColor : Colors.grey),
-            label: 'More',
-          ),
-          BottomNavigationBarItem(
-            icon: Iconify(Ic.baseline_notifications_active, color: currentPageIndex == 4 ? Theme.of(context).primaryColor : Colors.grey),
-            label: 'Notifications',
+            icon: Iconify(Ic.round_call_end, color: currentPageIndex == 2 ? Theme.of(context).primaryColor : Colors.grey),
+            label: 'Call Log',
           ),
         ],
       ),
@@ -103,10 +102,8 @@ class _NavBarState extends State<NavBar> {
             index: currentPageIndex,
             children: [
               HomePage(scaffoldKey: _scaffoldKey),
-              const CallPage(),
               const DashBoardPage(),
-              const ContactsPage(),
-              const NotificationPage(),
+              const CallPage(),
             ],
           ),
     );
@@ -206,6 +203,24 @@ class _NavBarState extends State<NavBar> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.contacts_outlined),
+              title: Text(
+                'Contacts',
+                style: GoogleFonts.inter(
+                  textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ContactsPage()),
                 );
               },
             ),

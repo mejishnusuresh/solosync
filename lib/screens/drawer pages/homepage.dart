@@ -1740,6 +1740,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:solosync/screens/notificationpage.dart';
 
 import '../../services/tasksandmeetings.dart';
 import '../addmeeting.dart';
@@ -1790,7 +1791,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Positioned(
             top: 60,
-            left: 3,
+            left: 0,
             child: Container(
               width: 50,
               height: 50,
@@ -1798,7 +1799,25 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   scaffoldKey.currentState!.openDrawer();
                 },
-                icon: const Icon(Icons.menu_rounded, color: Colors.white, size: 30),
+                icon: const Icon(Icons.menu_rounded, color: Colors.white, size: 26),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 60,
+            right: 0,
+            child: Container(
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationPage()),
+                  );
+                },
+                icon: const Icon(Icons.notifications_none, color: Colors.white, size: 24),
               ),
             ),
           ),
@@ -2230,7 +2249,7 @@ class MeetingCategoryView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Image.asset('assets/icons/tasks.png'),
+                        child: Image.asset('assets/icons/meetings.png'),
                         width: 45,
                         height: 45,
                       ),

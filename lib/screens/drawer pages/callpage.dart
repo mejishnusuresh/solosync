@@ -48,7 +48,7 @@ class _CallPageState extends State<CallPage> {
             ),
           ),
           Positioned(
-            top: 160,
+            top: 135,
             left: 0,
             right: 0,
             bottom: 0,
@@ -82,7 +82,7 @@ class _CallPageState extends State<CallPage> {
           child: Column(
               children: [
 
-                const SizedBox(height: 20,),
+                const SizedBox(height: 10,),
 
                 Container(
                   width: double.infinity,
@@ -90,7 +90,7 @@ class _CallPageState extends State<CallPage> {
                     leading: const Icon(Icons.call_outlined,color: Colors.grey,),
                     title: Text("Abraham Mathew",style: GoogleFonts.inter(
                     textStyle: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight:
                         FontWeight.bold)),),
                     subtitle: Text("Company Name",style: GoogleFonts.inter(
@@ -118,7 +118,7 @@ class _CallPageState extends State<CallPage> {
                     leading: const Icon(Icons.call_outlined,color: Colors.grey,),
                     title: Text("Kurian John",style: GoogleFonts.inter(
                     textStyle: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight:
                         FontWeight.bold)),),
                     subtitle: Text("Company Name",style: GoogleFonts.inter(
@@ -147,7 +147,7 @@ class _CallPageState extends State<CallPage> {
                     leading: const Icon(Icons.call_outlined,color: Colors.grey,),
                     title: Text("Abraham Mathew",style: GoogleFonts.inter(
                         textStyle: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight:
                             FontWeight.bold)),),
                     subtitle: Text("Company Name",style: GoogleFonts.inter(
@@ -175,7 +175,7 @@ class _CallPageState extends State<CallPage> {
                     leading: const Icon(Icons.call_outlined,color: Colors.grey,),
                     title: Text("Kurian John",style: GoogleFonts.inter(
                         textStyle: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 14  ,
                             fontWeight:
                             FontWeight.bold)),),
                     subtitle: Text("Company Name",style: GoogleFonts.inter(
