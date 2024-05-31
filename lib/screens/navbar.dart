@@ -11,7 +11,7 @@ import 'package:iconify_flutter/icons/ion.dart';
 import 'package:provider/provider.dart';
 import 'package:solosync/main.dart';
 import 'package:solosync/screens/addprofilepage.dart';
-import 'package:solosync/screens/contactspage.dart';
+import 'package:solosync/screens/contact/contactspage.dart';
 import 'package:solosync/screens/drawer%20pages/callpage.dart';
 import 'package:solosync/screens/drawer%20pages/dashboardpage.dart';
 import 'package:solosync/screens/drawer%20pages/homepage.dart';
@@ -19,6 +19,8 @@ import 'package:solosync/screens/notificationpage.dart';
 import 'package:solosync/screens/paymentspage.dart';
 import 'package:solosync/screens/profilepage.dart';
 import 'package:solosync/screens/settings.dart';
+
+import 'intro/introslide.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -123,7 +125,8 @@ class _NavBarState extends State<NavBar> {
           onTap: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const AddProfilePage()),
+                              MaterialPageRoute(builder: (context) => const IntroSlider()//AddProfilePage()
+             ),
                             );
                           },
             child: CircleAvatar(

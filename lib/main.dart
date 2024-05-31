@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:solosync/screens/entrypage.dart';
+import 'package:solosync/screens/intro/entrypage.dart';
 import 'package:solosync/services/wrapper.dart';
 
 Future<void> main() async {

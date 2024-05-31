@@ -32,6 +32,8 @@ dependencies:
   app_settings: ^5.1.1
   image_picker: ^1.0.7
   flutter_launcher_icons: ^0.13.1
+  introduction_screen: ^3.1.14
+  animate_do: ^3.1.2
 
   razorpay_web: ^1.4.2
 
@@ -45,6 +47,7 @@ dependencies:
   flutter_local_notifications: ^17.0.0
   permission_handler: ^11.3.1
   path: ^1.9.0
+
 
 
 #  amplify_api: ^1.0.0
