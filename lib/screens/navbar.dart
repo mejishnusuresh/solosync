@@ -122,13 +122,13 @@ class _NavBarState extends State<NavBar> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const IntroSlider()//AddProfilePage()
-             ),
-                            );
-                          },
+          // onTap: (){
+          //                   Navigator.push(
+          //                     context,
+          //                     // MaterialPageRoute(builder: (context) => const IntroSlider()//AddProfilePage()
+          //    ),
+          //                   );
+          //                 },
             child: CircleAvatar(
               backgroundImage: _imageFile != null
                   ? FileImage(_imageFile!)

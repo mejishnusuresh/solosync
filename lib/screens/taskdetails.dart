@@ -173,7 +173,6 @@ class _TaskDetailsState extends State<TaskDetails> {
 
                               ],
                             ),
-
                           ],
                         ),
 
