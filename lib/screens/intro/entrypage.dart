@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solosync/screens/navbar.dart';
+
+import 'introslide.dart';
 class EntryPage extends StatefulWidget {
   const EntryPage({super.key});
 
@@ -16,7 +18,7 @@ class _EntryPageState extends State<EntryPage> {
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>NavBar()),
+        MaterialPageRoute(builder: (context) =>IntroSlider()),
       );
     });
   }

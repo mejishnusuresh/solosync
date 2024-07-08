@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:solosync/services/authservice.dart';
 import 'package:solosync/services/databseservice.dart';
 
@@ -17,25 +17,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   AuthService authService = AuthService();
   DatabaseService databaseService = DatabaseService();
 
   late String userId;
   final formKey = GlobalKey<FormState>();
   bool isEditing = false;
-  //UploadTask? uploadTask;
 
   File? selectedImage;
   final ImagePicker _picker = ImagePicker();
-
-
-  // String? selectedGender;
-  // Set<String> genders = {
-  //   'Male',
-  //   'Female',
-  //   'Other',
-  // };
 
   late TextEditingController _fullNameController;
   late TextEditingController _mobileController;
@@ -58,7 +48,21 @@ class _ProfilePageState extends State<ProfilePage> {
     _addressController = TextEditingController();
 
     _fetchProfileData();
+  }
 
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+
+    if (selectedDate != null) {
+      setState(() {
+        _dobController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+      });
+    }
   }
 
   @override
@@ -80,7 +84,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   isEditing = true;
                 });
               },
-              child: const Icon(Icons.edit,color: Colors.white,),
+              child: const Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
             ),
           ),
           Positioned(
@@ -115,17 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-
-
-                      // CircleAvatar(
-                      //   backgroundImage: _imageFile != null && _imageFile!.existsSync()
-                      //       ? FileImage(_imageFile!)
-                      //       : AssetImage('assets/icons/default.png') as ImageProvider,
-                      //   radius: 50,
-                      // ),
-
-
-                      if(isEditing)
+                      if (isEditing)
                         Positioned(
                           bottom: 0,
                           right: 0,
@@ -150,12 +147,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           border: InputBorder.none,
                         ),
                         style: GoogleFonts.inter(
-                            textStyle:  const TextStyle(
+                            textStyle: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white
-                            )
-                        ),
+                                color: Colors.white)),
                       ),
                     ),
                   ),
@@ -163,14 +158,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-
           Positioned(
             top: 300,
             left: 0,
             right: 0,
             bottom: 0,
             child: Container(
-              decoration:  const BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
@@ -185,120 +179,84 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 30),
                         textField(
-                          hindText: "Phone",
+                          label: "Phone",
                           icon: Icons.phone,
                           inputType: TextInputType.phone,
                           maxLines: 1,
                           controller: _mobileController,
                           enabled: isEditing,
                         ),
+                        const SizedBox(height: 20),
                         textField(
                           enabled: isEditing,
-                          hindText: "Email",
+                          label: "Email",
                           icon: Icons.email,
                           inputType: TextInputType.emailAddress,
                           maxLines: 1,
                           controller: _emailController,
                         ),
+                        const SizedBox(height: 20),
                         textField(
                           enabled: isEditing,
-                          hindText: "Designation",
+                          label: "Designation",
                           icon: Icons.work,
                           inputType: TextInputType.text,
                           maxLines: 1,
                           controller: _designationController,
                         ),
+                        const SizedBox(height: 20),
                         textField(
                           enabled: isEditing,
-                          hindText: "Department",
+                          label: "Department",
                           icon: Icons.account_tree,
                           inputType: TextInputType.text,
                           maxLines: 1,
                           controller: _departmentController,
                         ),
-
-                        textField(
-                          enabled: isEditing,
-                          hindText: "DOB",
-                          icon: Icons.date_range,
-                          inputType: TextInputType.number,
-                          maxLines: 1,
-                          controller: _dobController,
+                        const SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: () {
+                            if (isEditing) {
+                              _selectDate(context);
+                            }
+                          },
+                          child: AbsorbPointer(
+                            absorbing: !isEditing,
+                            child: textField(
+                              enabled: isEditing,
+                              label: "DOB",
+                              icon: Icons.date_range,
+                              inputType: TextInputType.number,
+                              maxLines: 1,
+                              controller: _dobController,
+                            ),
+                          ),
                         ),
+                        const SizedBox(height: 20),
                         textField(
                           enabled: isEditing,
-                          hindText: "Address",
+                          label: "Address",
                           icon: Icons.home_filled,
                           inputType: TextInputType.text,
                           maxLines: 4,
                           controller: _addressController,
                         ),
-
+                        const SizedBox(height: 20),
                         Visibility(
                           visible: isEditing,
-                          child: ElevatedButton(
-                            onPressed: () => _updateProfile(),
-                            child: const Text('Save'),
+                          child: SizedBox(
+                            width: 400,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () => _updateProfile(),
+                              child: const Text('Save'),
+                            ),
                           ),
                         ),
-                    
                       ],
                     ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 275,
-            left: 30,
-            right: 30,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColorDark,
-                  borderRadius: const BorderRadius.all(Radius.circular(40)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 35,
-                        height: 35,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                        ),
-                        child: const Icon(Icons.arrow_back),
-                      ),
-                      const SizedBox(width: 70),
-                      Text("Back to Home",
-                        style: GoogleFonts.inter(
-                            textStyle:  const TextStyle(
-                                fontSize: 16,
-                                color: Colors.white
-                            )
-                        ),),
-                    ],
                   ),
                 ),
               ),
@@ -309,10 +267,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
   Widget textField({
     required bool enabled,
-    required String hindText,
+    required String label,
     required IconData icon,
     required TextInputType inputType,
     required int maxLines,
@@ -328,13 +285,15 @@ class _ProfilePageState extends State<ProfilePage> {
         maxLines: maxLines,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Theme.of(context).primaryColor),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.transparent),
           ),
-          hintText: hindText,
+          label: Text(label),
           alignLabelWithHint: true,
-          border: InputBorder.none,
           hintStyle: GoogleFonts.inter(
             textStyle: const TextStyle(
               fontWeight: FontWeight.w600,
@@ -345,7 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         validator: (value) {
           if (value!.isEmpty) {
-            return "Please enter $hindText";
+            return "Please enter $label";
           }
           return null;
         },
@@ -353,12 +312,14 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
   Future<void> _fetchProfileData() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       userId = user!.uid;
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
       if (snapshot.exists) {
         Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
         setState(() {
@@ -369,101 +330,66 @@ class _ProfilePageState extends State<ProfilePage> {
           _departmentController.text = data['department'] ?? '';
           _dobController.text = data['dob'] ?? '';
           _addressController.text = data['address'] ?? '';
-          if (data.containsKey('profilePic')) {
-            String profilePicUrl = data['profilePic'];
-            selectedImage = File(profilePicUrl);
-            print(selectedImage);
-          }
         });
       }
     } catch (e) {
-      print('Error fetching profile data: $e');
+      // Handle error
     }
   }
 
+  Future<void> _pickAndUploadImage() async {
+    final pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      setState(() {
+        selectedImage = imageFile;
+      });
 
+      try {
+        String fileName = 'profile_pictures/$userId.jpg';
+        await FirebaseStorage.instance
+            .ref()
+            .child(fileName)
+            .putFile(imageFile);
+        String imageUrl = await FirebaseStorage.instance
+            .ref()
+            .child(fileName)
+            .getDownloadURL();
 
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .update({'profileImage': imageUrl});
+      } catch (e) {
+        // Handle error
+      }
+    }
+  }
 
   Future<void> _updateProfile() async {
     try {
-      if (formKey.currentState!.validate()) {
-        setState(() {
-          isEditing = false;
-        });
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'fullName': _fullNameController.text,
+        'mobile': _mobileController.text,
+        'email': _emailController.text,
+        'designation': _designationController.text,
+        'department': _departmentController.text,
+        'dob': _dobController.text,
+        'address': _addressController.text,
+      });
 
-        await FirebaseFirestore.instance.collection('users').doc(userId).update({
-          'fullName': _fullNameController.text,
-          'mobile': _mobileController.text,
-          'email': _emailController.text,
-          'designation': _designationController.text,
-          'department': _departmentController.text,
-          'dob': _dobController.text,
-          'address': _addressController.text,
-        });
+      setState(() {
+        isEditing = false;
+      });
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Profile updated successfully.'),
-        ));
-      }
-    } catch (error) {
-      print('Error updating profile: $error');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to update profile.'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile')),
+      );
     }
-  }
-
-
-  Future<void> _pickAndUploadImage() async {
-    try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          selectedImage = File(pickedFile.path);
-        });
-
-        final String userId = FirebaseAuth.instance.currentUser!.uid;
-        Reference storageReference = FirebaseStorage.instance.ref().child('profile_images/${userId}/pp.jpg');
-        UploadTask uploadTask = storageReference.putFile(selectedImage!);
-        TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-
-        String imageUrl = await storageReference.getDownloadURL();
-
-        // final imageFile = File(pickedFile.path);
-        //
-        // final String userId = FirebaseAuth.instance.currentUser!.uid;
-        //final Reference ref = FirebaseStorage.instance.ref().child('profile_images').child('$userId.jpg');
-        // final TaskSnapshot uploadTask = await ref.putFile(imageFile);
-        // final String imageUrl = await uploadTask.ref.getDownloadURL();
-
-        await FirebaseFirestore.instance.collection('users').doc(userId).update({
-          'profilePic': imageUrl,
-        });
-
-        setState(() {});
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Profile image uploaded successfully.'),
-        ));
-      }
-    } catch (error) {
-      print('Error uploading image: $error');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to upload profile image.'),
-      ));
-    }
-  }
-
-
-  @override
-  void dispose() {
-    _fullNameController.dispose();
-    _mobileController.dispose();
-    _emailController.dispose();
-    _designationController.dispose();
-    _departmentController.dispose();
-    _dobController.dispose();
-    _addressController.dispose();
-    super.dispose();
   }
 }
